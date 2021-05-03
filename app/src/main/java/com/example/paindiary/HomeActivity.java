@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +20,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    FragmentManager manager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = manager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +32,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_pain_data_entry){
 
-        navigationView.setNavigationItemSelectedListener(this);
+                }
+                return true;
+            }
+        });
+        navigationView.setCheckedItem(R.id.nav_home_screen);
     }
 
     // press backward button but don't close the app
@@ -48,6 +63,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return true;
+        return false;
     }
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        return true;
+//    }
 }
