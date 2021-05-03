@@ -1,45 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <TextView
-        android:id="@+id/title"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu" />
+
+    
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_weight="1"
-        android:layout_marginTop="50dp"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="Pain Diary"
-        android:textSize="50dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="15dp"
-        android:text="Daily pain record" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            app:navigationIcon="@drawable/ic_menu_toolbar" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:src="@drawable/painchama"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="Pain Diary"
+            android:textSize="50dp" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:text="Daily pain record" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/painchama" />
+
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
 
 
 
-</LinearLayout>
+
+
+
+
 
 
 
