@@ -28,32 +28,12 @@
             layout="@layout/toolbar"
             app:navigationIcon="@drawable/ic_menu_toolbar" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:text="Pain Diary"
-            android:textSize="50dp" />
 
-        <TextView
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:textSize="15dp"
-            android:text="Daily pain record" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:maxWidth="100dp"
-            android:maxHeight="100dp"
-            android:src="@drawable/painchama" />
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

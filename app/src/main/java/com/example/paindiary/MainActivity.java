@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_login;
     private FirebaseAuth mAuth;
 
+    //for test
+    private Button btn_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
+        // for test
+        btn_home = (Button) findViewById(R.id.direct_home);
+        btn_home.setOnClickListener(this);
+
     }
 
     @Override
@@ -53,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_login:
                 userLogin();
+                break;
+                // for test
+            case R.id.direct_home:
+                startActivity(new Intent(this, HomeActivity.class));
                 break;
         }
     }

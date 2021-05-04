@@ -20,8 +20,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    FragmentManager manager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = manager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +36,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_pain_data_entry){
-
-                }
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home_screen);
+
+        // load home screen
+        Fragment fragment = new HomeFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+        fragmentTransaction.commit();
+
     }
 
     // press backward button but don't close the app
@@ -61,13 +58,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+    private void displaySelectedScreen(int id){
+        Fragment fragment = null;
+
+        switch (id){
+            case R.id.nav_home_screen:
+                fragment = new HomeFragment();
+                break;
+            case R.id.nav_pain_data_entry:
+                fragment = new DataEntryFragment();
+                break;
+            case R.id.nav_daily_record:
+                fragment = new DailyRecordFragment();
+                break;
+            case R.id.nav_report:
+                fragment = new ReportFragment();
+                break;
+            case R.id.nav_maps:
+                fragment = new MapFragment();
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_view, fragment);
+            fragmentTransaction.commit();
+        }
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        return true;
-//    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        displaySelectedScreen(id);
+        return true;
+    }
 }
