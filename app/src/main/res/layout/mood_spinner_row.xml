@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_mood"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/a" />
+
+    <TextView
+        android:id="@+id/tv_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/image_mood"
+        android:layout_toRightOf="@+id/image_mood"
+        android:gravity="center"
+        android:text="very good"
+        android:textSize="30sp" />
+
+</RelativeLayout>
