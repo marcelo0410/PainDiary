@@ -3,6 +3,7 @@ package com.example.paindiary;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private String temp;
+    SharedViewModel model;
 
     public HomeFragment(){ }
 
@@ -33,6 +36,12 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         getWeather("Tokyo");
+
+        // LiveData
+        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        model.setResTemperature(temp);
+        Log.d("TAG temp", String.valueOf(temp));
+
 
         return view;
     }
@@ -50,6 +59,7 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                temp = response.body().getMain().getTemp();
                 binding.homePressure.setText("Pressure: "+response.body().getMain().getPressure());
                 binding.homeTemp.setText("Temperature: "+response.body().getMain().getTemp());
                 binding.homeHumidity.setText("Humidity: "+response.body().getMain().getHumidity());

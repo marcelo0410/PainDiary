@@ -61,4 +61,9 @@ public class DailyRecordFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_daily_record, container, false);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

@@ -3,7 +3,10 @@ package com.example.paindiary;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ public class DataEntryFragment extends Fragment {
     private FragmentDataEntryBinding binding;
     private ArrayList<MoodItem> moodItemArrayList;
     private MoodAdapter moodAdapter;
+    private SharedViewModel model;
 
     public DataEntryFragment() {
         // Required empty public constructor
@@ -33,6 +37,19 @@ public class DataEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDataEntryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+
+        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        binding.etShow.setText(model.getUserEmail().toString());
+        Log.d("TAG", String.valueOf(model.getUserEmail()));
+        model.getUserEmail().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.etShow.setText(s);
+
+                //Toast.makeText(requireActivity(), s, Toast.LENGTH_LONG).show();
+            }
+        });
 
         // pain level spinner
         List<String> painLevelList = new ArrayList<String>();
@@ -107,6 +124,8 @@ public class DataEntryFragment extends Fragment {
                                                        binding.btnEdit.setEnabled(true);
                                                        binding.timepicker.setEnabled(false);
                                                        binding.timepicker.setClickable(false);
+                                                       // receive data from user
+                                                       dataCollect(v);
                                                    }
                                                }
                                            });
@@ -178,4 +197,20 @@ public class DataEntryFragment extends Fragment {
         return true;
     }
 
+    private void dataCollect(View v){
+        MoodItem mood = (MoodItem) binding.moodSpinner.getSelectedItem();
+        String moodName = mood.getMoodName();
+        String painLocation = binding.painLocationSpinner.getSelectedItem().toString();
+        String painLevel = binding.painLevelSpinner.getSelectedItem().toString().substring(0,1);
+        String stepGoal = binding.etStepGoal.getText().toString();
+        String stepPhysical = binding.etStepPhysical.getText().toString();
+        String concat = moodName +" , "+ painLocation +" , "+ painLevel +" , "+ stepGoal +" , "+ stepPhysical;
+        Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
