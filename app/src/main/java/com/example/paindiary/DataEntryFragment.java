@@ -11,9 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.paindiary.databinding.FragmentDataEntryBinding;
-import com.example.paindiary.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ public class DataEntryFragment extends Fragment {
         binding = FragmentDataEntryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        // spinner
+        // pain level spinner
         List<String> painLevelList = new ArrayList<String>();
         painLevelList.add("0 No pain");
         painLevelList.add("1");
@@ -52,6 +50,7 @@ public class DataEntryFragment extends Fragment {
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, painLevelList);
         binding.painLevelSpinner.setAdapter(spinnerAdapter);
 
+        // pain location spinner
         List<String> locationList = new ArrayList<String>();
         locationList.add("Back");
         locationList.add("Neck");
@@ -67,6 +66,7 @@ public class DataEntryFragment extends Fragment {
         final ArrayAdapter<String> locationSpinnerAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, locationList);
         binding.painLocationSpinner.setAdapter(locationSpinnerAdapter);
 
+        // moodSpinner
         initList();
         moodAdapter = new MoodAdapter(view.getContext(), moodItemArrayList);
         binding.moodSpinner.setAdapter(moodAdapter);
@@ -75,7 +75,7 @@ public class DataEntryFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 MoodItem clickMood = (MoodItem) parent.getItemAtPosition(position);
                 String clickMoodName = clickMood.getMoodName();
-                Toast.makeText(view.getContext(), clickMoodName + "selected", Toast.LENGTH_LONG).show();
+                // Toast.makeText(view.getContext(), clickMoodName + "selected", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -83,6 +83,56 @@ public class DataEntryFragment extends Fragment {
 
             }
         });
+
+        binding.btnEdit.setEnabled(false);
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View v) {
+                                                   Boolean flag = dataEntryValidation();
+                                                   if (flag){
+                                                       Toast.makeText(view.getContext(), "Save Successfully!!", Toast.LENGTH_LONG).show();
+                                                       binding.etStepGoal.setFocusable(false);
+                                                       binding.etStepPhysical.setFocusable(false);
+
+                                                       binding.moodSpinner.setEnabled(false);
+                                                       binding.moodSpinner.setClickable(false);
+                                                       binding.moodSpinner.setAdapter(moodAdapter);
+                                                       binding.painLevelSpinner.setEnabled(false);
+                                                       binding.painLevelSpinner.setClickable(false);
+                                                       binding.painLevelSpinner.setAdapter(spinnerAdapter);
+                                                       binding.painLocationSpinner.setEnabled(false);
+                                                       binding.painLocationSpinner.setClickable(false);
+                                                       binding.painLocationSpinner.setAdapter(locationSpinnerAdapter);
+                                                       binding.btnSave.setEnabled(false);
+                                                       binding.btnEdit.setEnabled(true);
+                                                       binding.timepicker.setEnabled(false);
+                                                       binding.timepicker.setClickable(false);
+                                                   }
+                                               }
+                                           });
+
+        binding.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(view.getContext(), "Please edit your data!", Toast.LENGTH_LONG).show();
+                binding.etStepGoal.setFocusableInTouchMode(true);
+                binding.etStepPhysical.setFocusableInTouchMode(true);
+                binding.moodSpinner.setEnabled(true);
+                binding.moodSpinner.setClickable(true);
+                binding.moodSpinner.setAdapter(moodAdapter);
+                binding.painLevelSpinner.setEnabled(true);
+                binding.painLevelSpinner.setClickable(true);
+                binding.painLevelSpinner.setAdapter(spinnerAdapter);
+                binding.painLocationSpinner.setEnabled(true);
+                binding.painLocationSpinner.setClickable(true);
+                binding.painLocationSpinner.setAdapter(locationSpinnerAdapter);
+                binding.btnSave.setEnabled(true);
+                binding.btnEdit.setEnabled(false);
+                binding.timepicker.setEnabled(true);
+                binding.timepicker.setClickable(true);
+            }
+        });
+
 
         return view;
     }
@@ -94,6 +144,38 @@ public class DataEntryFragment extends Fragment {
         moodItemArrayList.add(new MoodItem("Average", R.drawable.c));
         moodItemArrayList.add(new MoodItem("Low", R.drawable.d));
         moodItemArrayList.add(new MoodItem("Very low", R.drawable.e));
+    }
+
+    private boolean dataEntryValidation(){
+        // check empty
+        if (binding.etStepGoal.getText().toString().trim().isEmpty()){
+            binding.etStepGoal.setError("Please enter your step goal!");
+            binding.etStepGoal.requestFocus();
+            return false;
+        }
+
+        if (binding.etStepPhysical.getText().toString().trim().isEmpty()){
+            binding.etStepPhysical.setError("Please enter today's physical steps!");
+            binding.etStepPhysical.requestFocus();
+            return false;
+        }
+
+        try {
+            Integer.parseInt(binding.etStepPhysical.getText().toString().trim());
+        } catch (Exception e){
+            binding.etStepPhysical.setError("Please enter a number!");
+            binding.etStepPhysical.requestFocus();
+            return false;
+        }
+
+        try {
+            Integer.parseInt(binding.etStepGoal.getText().toString().trim());
+        } catch (Exception e){
+            binding.etStepGoal.setError("Please enter a number!");
+            binding.etStepGoal.requestFocus();
+            return false;
+        }
+        return true;
     }
 
 }

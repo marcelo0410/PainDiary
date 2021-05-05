@@ -6,16 +6,23 @@
     android:orientation="vertical"
     tools:context=".DataEntryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:text="Pain Data Entry"
+        android:layout_height="30dp"
+        android:text="Daily Notification Time"
         android:layout_gravity="center"
-        android:textSize="50sp"/>
+        android:textSize="25sp"/>
+    <TimePicker
+        android:id="@+id/timepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:timePickerMode="spinner"
+        android:scaleY="0.95"
+        android:scaleX="0.95" />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="Pain intensity level(NRS)"
         android:layout_gravity="center"
         android:textSize="25sp"/>
@@ -27,7 +34,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="Location of pain"
         android:layout_gravity="center"
         android:textSize="25sp"/>
@@ -39,7 +46,7 @@
         />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="Mood"
         android:layout_gravity="center"
         android:textSize="25sp"/>
@@ -51,11 +58,12 @@
         />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="Step Goal (steps)"
         android:layout_gravity="center"
         android:textSize="25sp"/>
     <EditText
+        android:id="@+id/et_step_goal"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:hint="Enter Step Goal per day"
@@ -64,11 +72,12 @@
         android:textSize="25sp"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="Total Physical steps today"
         android:layout_gravity="center"
         android:textSize="25sp"/>
     <EditText
+        android:id="@+id/et_step_physical"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:hint="Enter Step Goal per day"
@@ -81,11 +90,13 @@
     android:orientation="horizontal"
     android:layout_gravity="center">
     <Button
+        android:id="@+id/btn_save"
         android:layout_width="100dp"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:text="Save"/>
     <Button
+        android:id="@+id/btn_edit"
         android:layout_width="100dp"
         android:layout_height="fill_parent"
         android:text="Edit"/>

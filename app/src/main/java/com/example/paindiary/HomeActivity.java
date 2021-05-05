@@ -67,15 +67,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_pain_data_entry:
                 fragment = new DataEntryFragment();
+                toolbar.setTitle("Pain Data Entry");
                 break;
             case R.id.nav_daily_record:
                 fragment = new DailyRecordFragment();
+                toolbar.setTitle("Daily Record");
                 break;
             case R.id.nav_report:
                 fragment = new ReportFragment();
+                toolbar.setTitle("Pain Report");
                 break;
             case R.id.nav_maps:
                 fragment = new MapFragment();
+                toolbar.setTitle("Map");
                 break;
         }
 
