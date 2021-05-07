@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.paindiary.databinding.FragmentDataEntryBinding;
+import com.example.paindiary.viewmodel.DataViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class DataEntryFragment extends Fragment {
     private FragmentDataEntryBinding binding;
     private ArrayList<MoodItem> moodItemArrayList;
     private MoodAdapter moodAdapter;
-    private SharedViewModel model;
+    private DataViewModel model;
 
     public DataEntryFragment() {
         // Required empty public constructor
@@ -37,19 +38,14 @@ public class DataEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDataEntryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
-
-        model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        binding.etShow.setText(model.getUserEmail().toString());
-        Log.d("TAG", String.valueOf(model.getUserEmail()));
-        model.getUserEmail().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.etShow.setText(s);
-
-                //Toast.makeText(requireActivity(), s, Toast.LENGTH_LONG).show();
-            }
+        model = new ViewModelProvider(requireActivity()).get(DataViewModel.class);
+        model.getData().observe(getViewLifecycleOwner(), list -> {
+            String useremail = list.get(0);
+            Log.d("useremail Data entry", useremail);
+            binding.etShow.setText(useremail);
         });
+
+
 
         // pain level spinner
         List<String> painLevelList = new ArrayList<String>();
@@ -125,6 +121,10 @@ public class DataEntryFragment extends Fragment {
                                                        binding.timepicker.setEnabled(false);
                                                        binding.timepicker.setClickable(false);
                                                        // receive data from user
+
+                                                       //livedata
+
+
                                                        dataCollect(v);
                                                    }
                                                }
