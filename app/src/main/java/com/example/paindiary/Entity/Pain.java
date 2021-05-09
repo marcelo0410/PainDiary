@@ -10,6 +10,14 @@ public class Pain {
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
+    @ColumnInfo(name = "pain_date")
+    @NonNull
+    public String date;
+
+    @ColumnInfo(name = "pain_userEmail")
+    @NonNull
+    public String userEmail;
+
     @ColumnInfo(name = "pain_level")
     @NonNull
     public String level;
@@ -42,13 +50,7 @@ public class Pain {
     @NonNull
     public String pressure;
 
-    @ColumnInfo(name = "pain_userEmail")
-    @NonNull
-    public String userEmail;
 
-    @ColumnInfo(name = "pain_date")
-    @NonNull
-    public String date;
 
 
     public Pain(@NonNull String level, @NonNull String location, @NonNull String mood, @NonNull String stepGoal, @NonNull String stepPhysical, @NonNull String temperature, @NonNull String humidity, @NonNull String pressure, @NonNull String userEmail, @NonNull String date) {

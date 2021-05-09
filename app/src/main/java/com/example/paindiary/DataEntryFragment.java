@@ -26,6 +26,9 @@ public class DataEntryFragment extends Fragment {
     private ArrayList<MoodItem> moodItemArrayList;
     private MoodAdapter moodAdapter;
     private DataViewModel model;
+    private String temp;
+    private String humidity;
+    private String pressure;
 
     public DataEntryFragment() {
         // Required empty public constructor
@@ -38,12 +41,18 @@ public class DataEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDataEntryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        // receive userEmail
+        String userEmail = getArguments().getString("userEmail");
+
+
+        // TODO LiveData
         model = new ViewModelProvider(requireActivity()).get(DataViewModel.class);
-        model.getData().observe(getViewLifecycleOwner(), list -> {
-            String useremail = list.get(0);
-            Log.d("useremail Data entry", useremail);
-            binding.etShow.setText(useremail);
-        });
+        model.getData().observe(getViewLifecycleOwner(), list ->{
+
+                        Toast.makeText(getActivity(), String.valueOf(list.size()), Toast.LENGTH_LONG).show();
+                });
+
 
 
 

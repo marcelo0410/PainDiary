@@ -12,11 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.paindiary.Retrofit.ApiClient;
 import com.example.paindiary.Retrofit.ApiInterface;
 import com.example.paindiary.Retrofit.WeatherResponse;
 import com.example.paindiary.databinding.FragmentHomeBinding;
+import com.example.paindiary.viewmodel.DataViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +34,7 @@ public class HomeFragment extends Fragment {
     private String temp;
     private String humidity;
     private String pressure;
-    SharedViewModel model;
+    private DataViewModel viewModel;
 
     public HomeFragment(){ }
 
@@ -40,6 +45,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         getWeather("Tokyo");
+
+
 
         // LiveData
         // model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
@@ -54,6 +61,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 temp = binding.homeTemp.getText().toString().substring(13);
+                Log.d("temp", temp);
             }
         });
         binding.homePressure.addTextChangedListener(new TextWatcher() {
@@ -87,8 +95,10 @@ public class HomeFragment extends Fragment {
                 Log.d("humi", humidity);
             }
         });
-
-
+        Log.d("temp outside", temp);
+        // transfer weatherData
+        // communicateDataFragment();
+        // Toast.makeText(requireActivity(), temp, Toast.LENGTH_LONG).show();
 
         return view;
     }
@@ -106,7 +116,7 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                temp = response.body().getMain().getTemp();
+
                 binding.homePressure.setText("Pressure: "+response.body().getMain().getPressure());
                 binding.homeTemp.setText("Temperature: "+response.body().getMain().getTemp());
                 binding.homeHumidity.setText("Humidity: "+response.body().getMain().getHumidity());
@@ -117,5 +127,14 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    private void communicateDataFragment(){
+        viewModel = new ViewModelProvider(requireActivity()).get(DataViewModel.class);
+        List<String> weatherDataList = new ArrayList<>();
+        weatherDataList.add(temp);
+        weatherDataList.add(humidity);
+        weatherDataList.add(pressure);
+        viewModel.setWeatherData(weatherDataList);
     }
 }

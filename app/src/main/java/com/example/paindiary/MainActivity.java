@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_login;
     private FirebaseAuth mAuth;
     private DataViewModel model;
+    private String userEmail;
 
     //for test
     private Button btn_home;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        userEmail = "";
         model = new ViewModelProvider(this).get(DataViewModel.class);
 
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void userLogin(){
-        String userEmail = etEmail.getText().toString().trim();
+        userEmail = etEmail.getText().toString().trim();
         String userPassword = etPassword.getText().toString().trim();
 
         if (userEmail.isEmpty()){
@@ -113,11 +114,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // redirect to the Home Screen
                     // Toast.makeText(MainActivity.this, userEmail, Toast.LENGTH_LONG).show();
                     // share login email
-                    List<String> list = new ArrayList<>();
-                    list.add(userEmail);
-                    model.getData().postValue(list);
-                    Log.d("useremail", list.get(0));
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+
+                    // TODO Livedata: Main Activity
+//                    List<String> list = new ArrayList<>();
+//                    list.add(userEmail);
+//                    model.getData().postValue(list);
+//                    Log.d("useremail", list.get(0));
+
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.putExtra("userEmail", userEmail);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, "Please check your information!", Toast.LENGTH_LONG).show();
                 }
