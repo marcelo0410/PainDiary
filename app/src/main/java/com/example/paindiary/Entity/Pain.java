@@ -65,4 +65,94 @@ public class Pain {
         this.userEmail = userEmail;
         this.date = date;
     }
+
+    @NonNull
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(@NonNull String date) {
+        this.date = date;
+    }
+
+    @NonNull
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(@NonNull String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    @NonNull
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(@NonNull String level) {
+        this.level = level;
+    }
+
+    @NonNull
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(@NonNull String location) {
+        this.location = location;
+    }
+
+    @NonNull
+    public String getMood() {
+        return mood;
+    }
+
+    public void setMood(@NonNull String mood) {
+        this.mood = mood;
+    }
+
+    @NonNull
+    public String getStepGoal() {
+        return stepGoal;
+    }
+
+    public void setStepGoal(@NonNull String stepGoal) {
+        this.stepGoal = stepGoal;
+    }
+
+    @NonNull
+    public String getStepPhysical() {
+        return stepPhysical;
+    }
+
+    public void setStepPhysical(@NonNull String stepPhysical) {
+        this.stepPhysical = stepPhysical;
+    }
+
+    @NonNull
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(@NonNull String temperature) {
+        this.temperature = temperature;
+    }
+
+    @NonNull
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(@NonNull String humidity) {
+        this.humidity = humidity;
+    }
+
+    @NonNull
+    public String getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(@NonNull String pressure) {
+        this.pressure = pressure;
+    }
 }

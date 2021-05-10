@@ -1,9 +1,11 @@
 package com.example.paindiary;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -14,11 +16,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.paindiary.Entity.Pain;
 import com.example.paindiary.databinding.FragmentDataEntryBinding;
 import com.example.paindiary.viewmodel.DataViewModel;
+import com.example.paindiary.viewmodel.PainViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class DataEntryFragment extends Fragment {
 
@@ -26,6 +35,7 @@ public class DataEntryFragment extends Fragment {
     private ArrayList<MoodItem> moodItemArrayList;
     private MoodAdapter moodAdapter;
     private DataViewModel model;
+    private PainViewModel painViewModel;
     private String temp;
     private String humidity;
     private String pressure;
@@ -53,6 +63,8 @@ public class DataEntryFragment extends Fragment {
                         Toast.makeText(getActivity(), String.valueOf(list.size()), Toast.LENGTH_LONG).show();
                 });
 
+        // painviewmodel
+        painViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(PainViewModel.class);
 
 
 
@@ -130,11 +142,40 @@ public class DataEntryFragment extends Fragment {
                                                        binding.timepicker.setEnabled(false);
                                                        binding.timepicker.setClickable(false);
                                                        // receive data from user
+                                                       SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                                                       String currentDate = sdf.format(new Date());
+
+                                                       // fake weather data
+                                                       temp = "20";
+                                                       humidity = "30";
+                                                       pressure = "1000";
+
+
+                                                       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                                           CompletableFuture<Pain> painCompletableFuture = painViewModel.findByDateFuture(currentDate);
+                                                           painCompletableFuture.thenApply(pain -> {
+                                                               if (pain == null) {
+                                                                   List<String> painList = dataCollect(v);
+                                                                   Pain newPain = new Pain(painList.get(0), painList.get(1), painList.get(2), painList.get(3), painList.get(4), temp, humidity, pressure, userEmail, currentDate);
+                                                                   painViewModel.insert(newPain);
+                                                                   painViewModel.deleteAll();
+                                                               }else {
+                                                                   List<String> painList = dataCollect(v);
+                                                                   pain.level = painList.get(0);
+                                                                   pain.location = painList.get(1);
+                                                                   pain.mood = painList.get(2);
+                                                                   pain.stepGoal = painList.get(3);
+                                                                   pain.stepPhysical = painList.get(4);
+                                                                   painViewModel.update(pain);
+                                                               }
+                                                               return pain;
+                                                           });
+                                                       }
 
                                                        //livedata
 
 
-                                                       dataCollect(v);
+
                                                    }
                                                }
                                            });
@@ -206,7 +247,7 @@ public class DataEntryFragment extends Fragment {
         return true;
     }
 
-    private void dataCollect(View v){
+    private List<String> dataCollect(View v){
         MoodItem mood = (MoodItem) binding.moodSpinner.getSelectedItem();
         String moodName = mood.getMoodName();
         String painLocation = binding.painLocationSpinner.getSelectedItem().toString();
@@ -214,7 +255,18 @@ public class DataEntryFragment extends Fragment {
         String stepGoal = binding.etStepGoal.getText().toString();
         String stepPhysical = binding.etStepPhysical.getText().toString();
         String concat = moodName +" , "+ painLocation +" , "+ painLevel +" , "+ stepGoal +" , "+ stepPhysical;
-        Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
+        List<String> painList = new ArrayList<>();
+        painList.add(painLevel);
+        painList.add(painLocation);
+        painList.add(moodName);
+        painList.add(stepGoal);
+        painList.add(stepPhysical);
+        return painList;
+
+
+        // Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
+
+
     }
 
     @Override

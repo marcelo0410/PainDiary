@@ -19,6 +19,9 @@ public interface PainDAO {
     @Query("SELECT * FROM pain WHERE uid = :painId LIMIT 1")
     Pain findByID(int painId);
 
+    @Query("SELECT * FROM pain WHERE pain_date = :painDate LIMIT 1")
+    Pain findByDate(String painDate);
+
     @Insert
     void insert(Pain pain);
 

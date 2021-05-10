@@ -27,6 +27,7 @@ public class PainRepository {
     public LiveData<List<Pain>> getAllPainRecord() {
         return allPainRecord;
     }
+
     public void insert(final Pain pain){
         PainDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
@@ -65,6 +66,16 @@ public class PainRepository {
             @Override
             public Pain get() {
                 return painDao.findByID(painId);
+            }
+        }, PainDatabase.databaseWriteExecutor);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public CompletableFuture<Pain> findByDateFuture(final String painDate) {
+        return CompletableFuture.supplyAsync(new Supplier<Pain>() {
+            @Override
+            public Pain get() {
+                return painDao.findByDate(painDate);
             }
         }, PainDatabase.databaseWriteExecutor);
     }
