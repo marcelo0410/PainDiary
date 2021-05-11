@@ -11,25 +11,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.example.paindiary.databinding.FragmentPainWeatherBinding;
 import com.example.paindiary.databinding.FragmentReportBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class PainWeatherFragment extends Fragment {
 
-public class ReportFragment extends Fragment {
+    private FragmentPainWeatherBinding binding;
 
-    private FragmentReportBinding binding;
-
-    public ReportFragment() {
-        // Required empty public constructor
+    public PainWeatherFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentReportBinding.inflate(inflater, container, false);
+        binding = FragmentPainWeatherBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         List<String> chartGenre = new ArrayList<String>();
         chartGenre.add("Pain Location Pie Chart");
@@ -37,7 +36,7 @@ public class ReportFragment extends Fragment {
         chartGenre.add("Pain and Weather Line Chart");
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, chartGenre);
         binding.chartSpinner.setAdapter(spinnerAdapter);
-        binding.chartSpinner.setSelection(0);
+        binding.chartSpinner.setSelection(2);
         binding.chartSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -66,12 +65,12 @@ public class ReportFragment extends Fragment {
 
         switch (id){
             case 0:
+                fragment = new ReportFragment();
                 break;
             case 1:
                 fragment = new StepTakenFragment();
                 break;
             case 2:
-                fragment = new PainWeatherFragment();
         }
 
         if (fragment != null) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ReportFragment">
+    tools:context=".PainWeatherFragment">
 
     <Spinner
         android:id="@+id/chart_Spinner"
@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment Report"
+        android:text="Pain Weather"
         android:textSize="50sp"/>
 
 </LinearLayout>

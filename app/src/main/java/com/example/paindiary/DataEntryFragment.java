@@ -65,7 +65,8 @@ public class DataEntryFragment extends Fragment {
 
         // painviewmodel
         painViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(PainViewModel.class);
-
+        // preAddedPainData();
+        //painViewModel.deleteAll();
 
 
         // pain level spinner
@@ -266,9 +267,45 @@ public class DataEntryFragment extends Fragment {
         // Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
     }
 
-    // TODO add 15 pain Data
+    // TODO manually add 15 pain Data
+
+    //         locationList.add("Back"); 2
+    //        locationList.add("Neck"); 3
+    //        locationList.add("Head"); 4
+    //        locationList.add("Knees"); 3
+    //        locationList.add("Hips"); 3
     private void preAddedPainData(){
-        //Pain pain1 = new Pain(1, );
+        Pain pain1 = new Pain("1", "Back", "Good", "5000", "7000", "18", "23", "1015", "fit5046@gmail.com", "26/04/2021");
+        Pain pain2 = new Pain("2", "Neck", "Low", "10000", "4200", "16", "55", "1022", "fit5046@gmail.com", "27/04/2021");
+        Pain pain3 = new Pain("3", "Head", "Very low", "3000", "1200", "22", "59", "1018", "fit5046@gmail.com", "28/04/2021");
+        Pain pain4 = new Pain("9", "Head", "Low", "6000", "5000", "18", "95", "1007", "fit5046@gmail.com", "29/04/2021");
+        Pain pain5 = new Pain("7", "Head", "Average", "10000", "3750", "22", "61", "1000", "fit5046@gmail.com", "30/04/2021");
+        Pain pain6 = new Pain("5", "Neck", "Low", "12000", "3400", "21", "71", "1004", "fit5046@gmail.com", "01/05/2021");
+        Pain pain7 = new Pain("4", "Neck", "Very low", "9000", "1100", "22", "52", "997", "fit5046@gmail.com", "02/05/2021");
+        Pain pain8 = new Pain("2", "Knees", "Good", "2000", "500", "20", "55", "1012", "fit5046@gmail.com", "03/05/2021");
+        Pain pain9 = new Pain("1", "Hips", "Very good", "3000", "2400", "22", "49", "1016", "fit5046@gmail.com", "04/05/2021");
+        Pain pain10 = new Pain("8", "Head", "Very low", "500", "100", "21", "75", "1015", "fit5046@gmail.com", "05/05/2021");
+        Pain pain11 = new Pain("4", "Hips", "Average", "4000", "1500", "22", "56", "1015", "fit5046@gmail.com", "06/05/2021");
+        Pain pain12 = new Pain("3", "Back", "Average", "10000", "7500", "19", "86", "1012", "fit5046@gmail.com", "07/05/2021");
+        Pain pain13 = new Pain("1", "Knees", "Good", "9000", "5400", "22", "76", "1005", "fit5046@gmail.com", "08/05/2021");
+        Pain pain14 = new Pain("5", "Hips", "Low", "7000", "2600", "27", "58", "998", "fit5046@gmail.com", "09/05/2021");
+        Pain pain15 = new Pain("2", "Knees", "Good", "10000", "9500", "23", "48", "1009", "fit5046@gmail.com", "10/05/2021");
+
+        painViewModel.insert(pain1);
+        painViewModel.insert(pain2);
+        painViewModel.insert(pain3);
+        painViewModel.insert(pain4);
+        painViewModel.insert(pain5);
+        painViewModel.insert(pain6);
+        painViewModel.insert(pain7);
+        painViewModel.insert(pain8);
+        painViewModel.insert(pain9);
+        painViewModel.insert(pain10);
+        painViewModel.insert(pain11);
+        painViewModel.insert(pain12);
+        painViewModel.insert(pain13);
+        painViewModel.insert(pain14);
+        painViewModel.insert(pain15);
     }
 
     @Override
