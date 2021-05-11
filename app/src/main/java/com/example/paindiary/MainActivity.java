@@ -115,11 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Toast.makeText(MainActivity.this, userEmail, Toast.LENGTH_LONG).show();
                     // share login email
 
-                    // TODO Livedata: Main Activity
-//                    List<String> list = new ArrayList<>();
-//                    list.add(userEmail);
-//                    model.getData().postValue(list);
-//                    Log.d("useremail", list.get(0));
 
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     intent.putExtra("userEmail", userEmail);

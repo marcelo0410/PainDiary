@@ -144,7 +144,6 @@ public class DataEntryFragment extends Fragment {
                                                        // receive data from user
                                                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                                                        String currentDate = sdf.format(new Date());
-
                                                        // fake weather data
                                                        temp = "20";
                                                        humidity = "30";
@@ -158,7 +157,7 @@ public class DataEntryFragment extends Fragment {
                                                                    List<String> painList = dataCollect(v);
                                                                    Pain newPain = new Pain(painList.get(0), painList.get(1), painList.get(2), painList.get(3), painList.get(4), temp, humidity, pressure, userEmail, currentDate);
                                                                    painViewModel.insert(newPain);
-                                                                   painViewModel.deleteAll();
+
                                                                }else {
                                                                    List<String> painList = dataCollect(v);
                                                                    pain.level = painList.get(0);
@@ -265,8 +264,11 @@ public class DataEntryFragment extends Fragment {
 
 
         // Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
+    }
 
-
+    // TODO add 15 pain Data
+    private void preAddedPainData(){
+        //Pain pain1 = new Pain(1, );
     }
 
     @Override
