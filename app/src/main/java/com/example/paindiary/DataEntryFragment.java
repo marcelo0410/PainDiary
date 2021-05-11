@@ -267,7 +267,6 @@ public class DataEntryFragment extends Fragment {
         // Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
     }
 
-    // TODO manually add 15 pain Data
 
     //         locationList.add("Back"); 2
     //        locationList.add("Neck"); 3

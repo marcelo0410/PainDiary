@@ -1,64 +1,173 @@
 package com.example.paindiary;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.paindiary.databinding.FragmentMapBinding;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+
 public class MapFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentMapBinding binding;
+    private MapView mapView;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MapFragment newInstance(String param1, String param2) {
-        MapFragment fragment = new MapFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        String token = getString(R.string.mapbox_access_token);
+        Mapbox.getInstance(getContext().getApplicationContext(), token);
+        binding = FragmentMapBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        // default mapview
+        final LatLng latLng= new LatLng(35.652832, 139.839478);
+        binding.mapView.onCreate(savedInstanceState);
+        binding.mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+                        //TODO MapBox annotation
+//                        style.addImage("marker", R.drawable.mapbox_marker_icon_default);
+//                        SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
+//                        symbolManager.setIconAllowOverlap(true);
+//                        symbolManager.setTextAllowOverlap(true);
+//                        SymbolOptions symbolOptions = new SymbolOptions()
+//                                .withLatLng(new LatLng(latLng))
+//                                .withIconImage()
+//                                .withIconSize(1.3f);
+
+                        CameraPosition position = new CameraPosition.Builder()
+                                .target(latLng)
+                                .zoom(13)
+                                .build();
+                        mapboxMap.setCameraPosition(position);
+
+                    }
+                });
+            }
+        });
+
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // get userInput
+                String address = binding.etAddress.getText().toString();
+                LatLng newLatLng = getLatLong(address);
+
+                binding.mapView.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+                        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                            @Override
+                            public void onStyleLoaded(@NonNull Style style) {
+                                CameraPosition position = new CameraPosition.Builder()
+                                        .target(newLatLng)
+                                        .zoom(13)
+                                        .build();
+                                mapboxMap.setCameraPosition(position);
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        return view;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.mapView.onStart();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.mapView.onResume();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        binding.mapView.onPause();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        binding.mapView.onStop();
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        binding.mapView.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        binding.mapView.onLowMemory();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.mapView.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    public LatLng getLatLong(String newAddress){
+        double latitude = 0.0;
+        double longitude = 0.0;
+        // String address = "322 Coventry St, South Melbourne VIC 3205";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(newAddress, 1);
+            if (addresses.size() > 0) {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LatLng latLng= new LatLng(latitude, longitude);
+        return latLng;
+    }
+
+    private void addMarkerToStyle(){
+        style.addImage()
     }
 }

@@ -54,11 +54,7 @@ public class PainWeatherFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+
 
     public void setFragment(int id){
         Fragment fragment = null;
@@ -78,5 +74,10 @@ public class PainWeatherFragment extends Fragment {
             fragmentTransaction.replace(R.id.fragment_container_view, fragment);
             fragmentTransaction.commit();
         }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

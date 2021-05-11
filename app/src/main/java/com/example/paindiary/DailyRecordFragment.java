@@ -59,5 +59,6 @@ public class DailyRecordFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding = null;
     }
 }

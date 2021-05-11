@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         />
-    <TextView
-        android:layout_width="match_parent"
+    <com.github.mikephil.charting.charts.PieChart
         android:layout_height="match_parent"
-        android:text="Fragment Report"
-        android:textSize="50sp"/>
+        android:layout_width="match_parent"
+        android:id="@+id/pie_Chart" />
+
 
 </LinearLayout>

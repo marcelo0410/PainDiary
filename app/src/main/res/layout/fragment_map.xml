@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MapFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Map"
-        android:textSize="50sp"/>
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="Enter an address here"
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mapbox_blue"
+            android:text="Search" />
+    </LinearLayout>
+
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
