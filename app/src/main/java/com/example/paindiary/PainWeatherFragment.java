@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.example.paindiary.Entity.Pain;
 import com.example.paindiary.databinding.FragmentPainWeatherBinding;
 import com.example.paindiary.databinding.FragmentReportBinding;
+import com.example.paindiary.viewmodel.PainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ import java.util.List;
 public class PainWeatherFragment extends Fragment {
 
     private FragmentPainWeatherBinding binding;
+    private PainViewModel painViewModel;
 
     public PainWeatherFragment() {
     }
@@ -49,6 +54,13 @@ public class PainWeatherFragment extends Fragment {
             }
         });
 
+        painViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainViewModel.class);
+        painViewModel.getAllPainRecord().observe(getViewLifecycleOwner(), new Observer<List<Pain>>() {
+            @Override
+            public void onChanged(List<Pain> pains) {
+
+            }
+        });
 
 
         return view;

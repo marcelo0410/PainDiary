@@ -11,9 +11,63 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         />
-    <com.github.mikephil.charting.charts.PieChart
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:id="@+id/Date_LinearLayout"
         android:layout_width="match_parent"
-        android:id="@+id/line_chart" />
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_title">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Start Date"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="1995/12/13"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Enddate_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_title">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="End Date"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_end_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="2021/5/10"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
