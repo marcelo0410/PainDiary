@@ -4,22 +4,17 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.paindiary.Entity.Pain;
 import com.example.paindiary.databinding.FragmentDataEntryBinding;
-import com.example.paindiary.viewmodel.DataViewModel;
 import com.example.paindiary.viewmodel.PainViewModel;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +29,6 @@ public class DataEntryFragment extends Fragment {
     private FragmentDataEntryBinding binding;
     private ArrayList<MoodItem> moodItemArrayList;
     private MoodAdapter moodAdapter;
-    private DataViewModel model;
     private PainViewModel painViewModel;
     private String temp;
     private String humidity;
@@ -56,12 +50,6 @@ public class DataEntryFragment extends Fragment {
         String userEmail = getArguments().getString("userEmail");
 
 
-        // TODO LiveData
-        model = new ViewModelProvider(requireActivity()).get(DataViewModel.class);
-        model.getData().observe(getViewLifecycleOwner(), list ->{
-
-                        Toast.makeText(getActivity(), String.valueOf(list.size()), Toast.LENGTH_LONG).show();
-                });
 
         // painviewmodel
         painViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(PainViewModel.class);

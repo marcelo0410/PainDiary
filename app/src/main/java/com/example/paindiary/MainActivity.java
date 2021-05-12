@@ -2,12 +2,9 @@ package com.example.paindiary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -15,15 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.paindiary.viewmodel.DataViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText etEmail, etPassword;
     private Button btn_login;
     private FirebaseAuth mAuth;
-    private DataViewModel model;
     private String userEmail;
 
     //for test
@@ -42,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userEmail = "";
-        model = new ViewModelProvider(this).get(DataViewModel.class);
 
 
         btn_login_register = (Button) findViewById(R.id.login_register);

@@ -57,8 +57,6 @@ public class MapFragment extends Fragment {
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-                        //TODO MapBox annotation
-//                        style.addImage("marker", R.drawable.mapbox_marker_icon_default);
 //                        SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
 //                        symbolManager.setIconAllowOverlap(true);
 //                        symbolManager.setTextAllowOverlap(true);
@@ -167,7 +165,4 @@ public class MapFragment extends Fragment {
         return latLng;
     }
 
-    private void addMarkerToStyle(){
-        style.addImage()
-    }
 }

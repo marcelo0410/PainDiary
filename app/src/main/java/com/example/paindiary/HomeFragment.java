@@ -3,25 +3,17 @@ package com.example.paindiary;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.paindiary.Retrofit.ApiClient;
 import com.example.paindiary.Retrofit.ApiInterface;
 import com.example.paindiary.Retrofit.WeatherResponse;
 import com.example.paindiary.databinding.FragmentHomeBinding;
-import com.example.paindiary.viewmodel.DataViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +24,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private final String[] weatherDataList;
-    private DataViewModel viewModel;
+
 
     public HomeFragment(){
         weatherDataList = new String[3];
@@ -133,8 +125,4 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void communicateDataFragment(){
-        viewModel = new ViewModelProvider(requireActivity()).get(DataViewModel.class);
-        //viewModel.setWeatherData(weatherDataList);
-    }
 }
