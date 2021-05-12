@@ -20,6 +20,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
@@ -33,6 +34,7 @@ public class MapFragment extends Fragment {
 
     private FragmentMapBinding binding;
     private MapView mapView;
+    private Symbol symbol;
 
     public MapFragment() {
         // Required empty public constructor
@@ -57,13 +59,15 @@ public class MapFragment extends Fragment {
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
+                        //TODO mapbox marker
 //                        SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
 //                        symbolManager.setIconAllowOverlap(true);
 //                        symbolManager.setTextAllowOverlap(true);
 //                        SymbolOptions symbolOptions = new SymbolOptions()
 //                                .withLatLng(new LatLng(latLng))
-//                                .withIconImage()
+//                                .withIconImage(symbol.getIconImage())
 //                                .withIconSize(1.3f);
+//                        symbol = symbolManager.create(symbolOptions);
 
                         CameraPosition position = new CameraPosition.Builder()
                                 .target(latLng)

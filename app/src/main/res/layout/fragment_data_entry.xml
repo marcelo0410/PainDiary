@@ -8,18 +8,24 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:text="Daily Notification Time"
         android:layout_gravity="center"
-        android:textSize="25sp"/>
+        android:textSize="22sp"/>
     <TimePicker
         android:id="@+id/timepicker"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:timePickerMode="spinner"
         android:scaleY="0.95"
         android:scaleX="0.95" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/button_set_alarm"
+        android:text="Set Notification"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
@@ -103,13 +109,6 @@
         android:layout_height="fill_parent"
         android:text="Edit"/>
 </LinearLayout>
-
-    <TextView
-        android:id="@+id/et_show"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="30sp"/>
 
 
 </LinearLayout>

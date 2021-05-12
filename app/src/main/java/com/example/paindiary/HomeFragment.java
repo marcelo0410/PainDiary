@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-
+                // TODO extract three weather data
                 binding.homePressure.setText("Pressure: "+response.body().getMain().getPressure());
                 binding.homeTemp.setText("Temperature: "+response.body().getMain().getTemp());
                 binding.homeHumidity.setText("Humidity: "+response.body().getMain().getHumidity());

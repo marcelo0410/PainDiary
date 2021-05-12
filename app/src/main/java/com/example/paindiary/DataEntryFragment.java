@@ -1,5 +1,11 @@
 package com.example.paindiary;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,6 +25,7 @@ import com.example.paindiary.viewmodel.PainViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +52,7 @@ public class DataEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDataEntryBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        binding.timepicker.setIs24HourView(true);
 
         // receive userEmail
         String userEmail = getArguments().getString("userEmail");
@@ -56,6 +64,38 @@ public class DataEntryFragment extends Fragment {
         // preAddedPainData();
         //painViewModel.deleteAll();
 
+        // Task 3 Advanced level: notification
+        createNotificationChannel();
+        binding.buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int hour = 0;
+                int minute = 0;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    hour = binding.timepicker.getHour();
+                    minute = binding.timepicker.getMinute();
+                }
+                Calendar calender = Calendar.getInstance();
+                calender.set(Calendar.HOUR_OF_DAY, hour);
+                calender.set(Calendar.MINUTE, minute);
+                calender.set(Calendar.SECOND, 0);
+                calender.set(Calendar.MILLISECOND, 0);
+
+                long millis = calender.getTimeInMillis();
+                long twoMin = 1000 * 120;
+                millis = millis-twoMin;
+
+                Toast.makeText(getContext(), String.valueOf(millis) + " , " +String.valueOf(System.currentTimeMillis()), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), Reminder.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+                AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+
+                long currentTime = System.currentTimeMillis();
+
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, millis, pendingIntent);
+            }
+        });
 
         // pain level spinner
         List<String> painLevelList = new ArrayList<String>();
@@ -293,6 +333,18 @@ public class DataEntryFragment extends Fragment {
         painViewModel.insert(pain13);
         painViewModel.insert(pain14);
         painViewModel.insert(pain15);
+    }
+
+    private void createNotificationChannel(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CharSequence name = "NotifyChannel";
+            String description = "Data Entry Reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notify", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
