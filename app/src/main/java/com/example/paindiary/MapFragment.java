@@ -23,6 +23,7 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class MapFragment extends Fragment {
     private FragmentMapBinding binding;
     private MapView mapView;
     private Symbol symbol;
+    private SymbolOptions symbolOptions;
+    private static final String RED_MARKER_ICON_ID = "RED_MARKER_ICON_ID";
 
     public MapFragment() {
         // Required empty public constructor
@@ -56,19 +59,19 @@ public class MapFragment extends Fragment {
         binding.mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                mapboxMap.setStyle(new Style.Builder().fromUri(Style.MAPBOX_STREETS), new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
                         //TODO mapbox marker
-//                        SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
-//                        symbolManager.setIconAllowOverlap(true);
-//                        symbolManager.setTextAllowOverlap(true);
-//                        SymbolOptions symbolOptions = new SymbolOptions()
-//                                .withLatLng(new LatLng(latLng))
-//                                .withIconImage(symbol.getIconImage())
-//                                .withIconSize(1.3f);
-//                        symbol = symbolManager.create(symbolOptions);
-
+                        style.addImage(RED_MARKER_ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.mapbox_marker_icon_default)));
+                        final SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
+                        symbolManager.setIconAllowOverlap(true);
+                        symbolManager.setTextAllowOverlap(true);
+                        symbolOptions = new SymbolOptions()
+                                .withLatLng(new LatLng(latLng))
+                                .withIconImage(RED_MARKER_ICON_ID)
+                                .withIconSize(1.3f);
+                        symbol = symbolManager.create(symbolOptions);
                         CameraPosition position = new CameraPosition.Builder()
                                 .target(latLng)
                                 .zoom(13)
@@ -89,11 +92,20 @@ public class MapFragment extends Fragment {
                 LatLng newLatLng = getLatLong(address);
 
                 binding.mapView.getMapAsync(new OnMapReadyCallback() {
-                    @Override
                     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-                        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                        mapboxMap.setStyle(new Style.Builder().fromUri(Style.MAPBOX_STREETS), new Style.OnStyleLoaded() {
                             @Override
                             public void onStyleLoaded(@NonNull Style style) {
+                                //TODO mapbox marker
+                                style.addImage(RED_MARKER_ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.mapbox_marker_icon_default)));
+                                final SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
+                                symbolManager.setIconAllowOverlap(true);
+                                symbolManager.setTextAllowOverlap(true);
+                                symbolOptions = new SymbolOptions()
+                                        .withLatLng(new LatLng(newLatLng))
+                                        .withIconImage(RED_MARKER_ICON_ID)
+                                        .withIconSize(1.3f);
+                                symbol = symbolManager.create(symbolOptions);
                                 CameraPosition position = new CameraPosition.Builder()
                                         .target(newLatLng)
                                         .zoom(13)
@@ -145,11 +157,7 @@ public class MapFragment extends Fragment {
         binding.mapView.onDestroy();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+
 
     public LatLng getLatLong(String newAddress){
         double latitude = 0.0;
