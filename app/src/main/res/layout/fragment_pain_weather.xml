@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="fill_parent"
     tools:context=".PainWeatherFragment">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <Spinner
         android:id="@+id/chart_Spinner"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         />
     <LinearLayout
-        android:id="@+id/Date_LinearLayout"
+        android:id="@+id/StartDate_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -30,16 +32,21 @@
 
         <EditText
             android:id="@+id/et_start_date"
-            android:layout_width="match_parent"
+            android:layout_width="210dp"
             android:layout_height="match_parent"
-            android:text="1995/12/13"
+            android:text="23/03/2018"
             android:gravity="center"
             android:textSize="16sp"/>
+        <Button
+            android:id="@+id/button_time_start"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="Pick"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/Enddate_LinearLayout"
+        android:id="@+id/EndDate_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -57,17 +64,99 @@
 
         <EditText
             android:id="@+id/et_end_date"
-            android:layout_width="match_parent"
+            android:layout_width="210dp"
             android:layout_height="match_parent"
-            android:text="2021/5/10"
+            android:text="23/03/2021"
             android:gravity="center"
             android:textSize="16sp"/>
+        <Button
+            android:id="@+id/Button_time_endDate"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="Pick"/>
 
     </LinearLayout>
+    <Spinner
+        android:id="@+id/weather_Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        />
+    <Button
+        android:id="@+id/button_generate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Generate"/>
 
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="500dp" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Correlation Test Results"
+        android:textSize="30sp"/>
+    <LinearLayout
+        android:id="@+id/corre_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_title">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Correlation R Value"
+            android:textAllCaps="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="P Value"
+            android:gravity="center"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/value_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_r_value"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="0"
+            android:textAllCaps="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_p_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/button_generate_value"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Generate Value"/>
+
 
 </LinearLayout>
+
+</ScrollView>

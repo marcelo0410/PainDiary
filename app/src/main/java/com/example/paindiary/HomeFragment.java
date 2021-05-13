@@ -108,6 +108,7 @@ public class HomeFragment extends Fragment {
         final String[] weatherArray = new String[3];
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
+
         Call<WeatherResponse> call = apiInterface.getWeatherData(name);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
