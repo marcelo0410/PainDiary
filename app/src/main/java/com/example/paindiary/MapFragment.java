@@ -62,7 +62,6 @@ public class MapFragment extends Fragment {
                 mapboxMap.setStyle(new Style.Builder().fromUri(Style.MAPBOX_STREETS), new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-                        //TODO mapbox marker
                         style.addImage(RED_MARKER_ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.mapbox_marker_icon_default)));
                         final SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
                         symbolManager.setIconAllowOverlap(true);
@@ -96,7 +95,6 @@ public class MapFragment extends Fragment {
                         mapboxMap.setStyle(new Style.Builder().fromUri(Style.MAPBOX_STREETS), new Style.OnStyleLoaded() {
                             @Override
                             public void onStyleLoaded(@NonNull Style style) {
-                                //TODO mapbox marker
                                 style.addImage(RED_MARKER_ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.mapbox_marker_icon_default)));
                                 final SymbolManager symbolManager = new SymbolManager(binding.mapView, mapboxMap, style);
                                 symbolManager.setIconAllowOverlap(true);

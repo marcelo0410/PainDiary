@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,8 +124,7 @@ public class ReportFragment extends Fragment {
         for (Map.Entry<String, Integer> entry : locationMap.entrySet()){
             int value = entry.getValue();
             float tempF = (float) (Math.round((float)value/painCount*100));
-            //painPercent.put(entry.getKey(), tempF);
-            tempF = Float.parseFloat(String.valueOf(tempF) + "f");
+            Log.d("pieValue", String.valueOf(tempF));
             pieEntries.add(new PieEntry(tempF, entry.getKey()));
         }
 
@@ -135,11 +135,15 @@ public class ReportFragment extends Fragment {
         }
         pieDataSet.setColors(colors);
         PieData data = new PieData(pieDataSet);
+        data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(12f);
         binding.pieChart.setUsePercentValues(true);
         binding.pieChart.setDrawEntryLabels(true);
+        binding.pieChart.getDescription().setEnabled(false);
         binding.pieChart.setData(data);
         binding.pieChart.invalidate();
+
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.paindiary;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -20,10 +21,14 @@ import android.widget.Toast;
 import com.example.paindiary.Entity.Pain;
 import com.example.paindiary.databinding.FragmentPainWeatherBinding;
 import com.example.paindiary.viewmodel.PainViewModel;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -177,28 +182,39 @@ public class PainWeatherFragment extends Fragment {
                         }
                         List<Entry> painEntryList = new ArrayList<>();
                         List<Entry> weatherEntryList = new ArrayList<>();
-
+                        final ArrayList<String> xLabelList = new ArrayList<>();
                         for (Pain pain : painSelectedList){
                             painEntryList.add(new Entry(Float.parseFloat(pain.getDate().substring(0,2)), Float.parseFloat(pain.getLevel())));
                             if (spinnerItemSelected.equals("Temperature")){
                                 weatherEntryList.add(new Entry(Float.parseFloat(pain.getDate().substring(0,2)), Float.parseFloat(pain.getTemperature())));
+                                xLabelList.add(pain.getDate());
                             } else if (spinnerItemSelected.equals("Humidity")){
                                 weatherEntryList.add(new Entry(Float.parseFloat(pain.getDate().substring(0,2)), Float.parseFloat(pain.getHumidity())));
+                                xLabelList.add(pain.getDate());
                             } else {
                                 weatherEntryList.add(new Entry(Float.parseFloat(pain.getDate().substring(0,2)), Float.parseFloat(pain.getPressure())));
+                                xLabelList.add(pain.getDate());
                             }
                         }
 
-                        LineDataSet painLineDataSet = new LineDataSet(painEntryList,"Pain and Weather Line Chart");
-                        LineDataSet weatherLineDataSet = new LineDataSet(weatherEntryList, "Pain and Weather Line Chart");
+                        LineDataSet painLineDataSet = new LineDataSet(painEntryList,"Weather");
+                        LineDataSet weatherLineDataSet = new LineDataSet(weatherEntryList, "Pain Level");
 
                         painLineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
                         weatherLineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+                        painLineDataSet.setColor(Color.BLUE);
+                        weatherLineDataSet.setColor(Color.RED);
+                        painLineDataSet.setValueTextSize(10f);
+                        weatherLineDataSet.setValueTextSize(10f);
 
                         LineData lineData=new LineData();
                         lineData.addDataSet(painLineDataSet);
                         lineData.addDataSet(weatherLineDataSet);
-
+                        // xAxis
+                        XAxis xAxis = binding.lineChart.getXAxis();
+                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        xAxis.setDrawGridLines(false);
+                        binding.lineChart.setVisibleXRange(1,1);
                         binding.lineChart.setData(lineData);
                         binding.lineChart.invalidate();
 

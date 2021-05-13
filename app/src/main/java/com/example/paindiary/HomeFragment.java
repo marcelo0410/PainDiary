@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.paindiary.Retrofit.ApiClient;
 import com.example.paindiary.Retrofit.ApiInterface;
@@ -24,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private final String[] weatherDataList;
+    private String pressure;
 
 
     public HomeFragment(){
@@ -39,7 +41,7 @@ public class HomeFragment extends Fragment {
         getWeather("Tokyo");
 
 
-
+        // TODO delete
         // LiveData
         // model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         // model.setResTemperature(temp);
@@ -84,16 +86,11 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                String pressure = binding.homePressure.getText().toString().substring(10);
-                //weatherDataList[2] = pressure;
+                pressure = binding.homePressure.getText().toString().substring(10);
+
             }
         });
 
-
-
-        // transfer weatherData
-        // communicateDataFragment();
-        // Toast.makeText(requireActivity(), array[0], Toast.LENGTH_LONG).show();
 
         return view;
     }
