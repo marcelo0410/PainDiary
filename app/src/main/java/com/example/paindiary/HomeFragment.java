@@ -4,12 +4,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 
 import com.example.paindiary.Retrofit.ApiClient;
 import com.example.paindiary.Retrofit.ApiInterface;
@@ -45,7 +44,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void getWeather(String name){
-        final String[] weatherArray = new String[3];
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<WeatherResponse> call = apiInterface.getWeatherData(name);
         call.enqueue(new Callback<WeatherResponse>() {

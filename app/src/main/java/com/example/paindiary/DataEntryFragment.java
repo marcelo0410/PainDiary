@@ -20,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.paindiary.Entity.Pain;
+import com.example.paindiary.Retrofit.ApiClient;
+import com.example.paindiary.Retrofit.ApiInterface;
+import com.example.paindiary.Retrofit.WeatherResponse;
 import com.example.paindiary.databinding.FragmentDataEntryBinding;
 import com.example.paindiary.viewmodel.PainViewModel;
 
@@ -30,6 +33,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DataEntryFragment extends Fragment {
 
@@ -147,9 +154,6 @@ public class DataEntryFragment extends Fragment {
                                                    if (flag){
                                                        List<String> painList = dataCollect(v);
                                                        Toast.makeText(view.getContext(), "Save Successfully!!", Toast.LENGTH_LONG).show();
-                                                       temp = "19";
-                                                       humidity = "88";
-                                                       pressure = "1017";
                                                        binding.etStepGoal.setFocusable(false);
                                                        binding.etStepPhysical.setFocusable(false);
                                                        binding.moodSpinner.setEnabled(false);
@@ -173,20 +177,47 @@ public class DataEntryFragment extends Fragment {
                                                            CompletableFuture<Pain> painCompletableFuture = painViewModel.findByDateFuture(currentDate);
                                                            painCompletableFuture.thenApply(pain -> {
                                                                if (pain == null) {
+                                                                   ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+                                                                       Call<WeatherResponse> call = apiInterface.getWeatherData("Tokyo");
+                                                                   call.enqueue(new Callback<WeatherResponse>() {
+                                                                           @Override
+                                                                           public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                                                                               temp = response.body().getMain().getTemp().substring(0,2);
+                                                                               humidity = response.body().getMain().getHumidity();
+                                                                               pressure = response.body().getMain().getPressure();
+                                                                               Pain newPain = new Pain(painList.get(0), painList.get(1), painList.get(2), painList.get(3), painList.get(4), temp, humidity, pressure, userEmail, currentDate);
+                                                                               painViewModel.insert(newPain);
+                                                                           }
 
-                                                                   Pain newPain = new Pain(painList.get(0), painList.get(1), painList.get(2), painList.get(3), painList.get(4), temp, humidity, pressure, userEmail, currentDate);
-                                                                   painViewModel.insert(newPain);
+                                                                           @Override
+                                                                       public void onFailure(Call<WeatherResponse> call, Throwable t) {
+
+                                                                       }
+                                                                   });
+
                                                                }else {
                                                                    pain.setLevel(painList.get(0));
                                                                    pain.setLocation(painList.get(1));
                                                                    pain.setMood(painList.get(2));
                                                                    pain.setStepGoal(painList.get(3));
                                                                    pain.setStepPhysical(painList.get(4));
-                                                                   pain.setTemperature(temp);
-                                                                   pain.setHumidity(humidity);
-                                                                   pain.setPressure(pressure);
                                                                    pain.setUserEmail(userEmail);
-                                                                   painViewModel.update(pain);
+                                                                   ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+                                                                   Call<WeatherResponse> call = apiInterface.getWeatherData("Tokyo");
+                                                                   call.enqueue(new Callback<WeatherResponse>() {
+                                                                       @Override
+                                                                       public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                                                                           pain.setTemperature(response.body().getMain().getTemp().substring(0,2));
+                                                                           pain.setHumidity(response.body().getMain().getHumidity());
+                                                                           pain.setPressure(response.body().getMain().getPressure());
+                                                                           painViewModel.update(pain);
+                                                                       }
+                                                                       @Override
+                                                                       public void onFailure(Call<WeatherResponse> call, Throwable t) {
+
+                                                                       }
+                                                                   });
+
                                                                }
                                                                return pain;
                                                            });
