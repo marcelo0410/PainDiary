@@ -57,12 +57,8 @@ public class DataEntryFragment extends Fragment {
         // receive userEmail
         String userEmail = getArguments().getString("userEmail");
 
-
-
         // painviewmodel
         painViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()).create(PainViewModel.class);
-        // preAddedPainData();
-        //painViewModel.deleteAll();
 
         // Task 3 Advanced level: notification
         createNotificationChannel();
@@ -85,14 +81,11 @@ public class DataEntryFragment extends Fragment {
                 long twoMin = 1000 * 120;
                 millis = millis-twoMin;
 
-                Toast.makeText(getContext(), String.valueOf(millis) + " , " +String.valueOf(System.currentTimeMillis()), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), Reminder.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
                 AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 
                 long currentTime = System.currentTimeMillis();
-
-
                 alarmManager.set(AlarmManager.RTC_WAKEUP, millis, pendingIntent);
             }
         });
@@ -138,7 +131,6 @@ public class DataEntryFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 MoodItem clickMood = (MoodItem) parent.getItemAtPosition(position);
                 String clickMoodName = clickMood.getMoodName();
-                // Toast.makeText(view.getContext(), clickMoodName + "selected", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -153,10 +145,13 @@ public class DataEntryFragment extends Fragment {
                                                public void onClick(View v) {
                                                    Boolean flag = dataEntryValidation();
                                                    if (flag){
+                                                       List<String> painList = dataCollect(v);
                                                        Toast.makeText(view.getContext(), "Save Successfully!!", Toast.LENGTH_LONG).show();
+                                                       temp = "19";
+                                                       humidity = "88";
+                                                       pressure = "1017";
                                                        binding.etStepGoal.setFocusable(false);
                                                        binding.etStepPhysical.setFocusable(false);
-
                                                        binding.moodSpinner.setEnabled(false);
                                                        binding.moodSpinner.setClickable(false);
                                                        binding.moodSpinner.setAdapter(moodAdapter);
@@ -173,37 +168,29 @@ public class DataEntryFragment extends Fragment {
                                                        // receive data from user
                                                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                                                        String currentDate = sdf.format(new Date());
-                                                       // fake weather data
-                                                       temp = "20";
-                                                       humidity = "30";
-                                                       pressure = "1000";
-
 
                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
                                                            CompletableFuture<Pain> painCompletableFuture = painViewModel.findByDateFuture(currentDate);
                                                            painCompletableFuture.thenApply(pain -> {
                                                                if (pain == null) {
-                                                                   List<String> painList = dataCollect(v);
+
                                                                    Pain newPain = new Pain(painList.get(0), painList.get(1), painList.get(2), painList.get(3), painList.get(4), temp, humidity, pressure, userEmail, currentDate);
                                                                    painViewModel.insert(newPain);
-
                                                                }else {
-                                                                   List<String> painList = dataCollect(v);
-                                                                   pain.level = painList.get(0);
-                                                                   pain.location = painList.get(1);
-                                                                   pain.mood = painList.get(2);
-                                                                   pain.stepGoal = painList.get(3);
-                                                                   pain.stepPhysical = painList.get(4);
+                                                                   pain.setLevel(painList.get(0));
+                                                                   pain.setLocation(painList.get(1));
+                                                                   pain.setMood(painList.get(2));
+                                                                   pain.setStepGoal(painList.get(3));
+                                                                   pain.setStepPhysical(painList.get(4));
+                                                                   pain.setTemperature(temp);
+                                                                   pain.setHumidity(humidity);
+                                                                   pain.setPressure(pressure);
+                                                                   pain.setUserEmail(userEmail);
                                                                    painViewModel.update(pain);
                                                                }
                                                                return pain;
                                                            });
                                                        }
-
-                                                       //livedata
-
-
-
                                                    }
                                                }
                                            });
@@ -229,8 +216,6 @@ public class DataEntryFragment extends Fragment {
                 binding.timepicker.setClickable(true);
             }
         });
-
-
         return view;
     }
 
@@ -290,17 +275,9 @@ public class DataEntryFragment extends Fragment {
         painList.add(stepGoal);
         painList.add(stepPhysical);
         return painList;
-
-
-        // Toast.makeText(v.getContext(), concat, Toast.LENGTH_LONG).show();
     }
 
-
-    //         locationList.add("Back"); 2
-    //        locationList.add("Neck"); 3
-    //        locationList.add("Head"); 4
-    //        locationList.add("Knees"); 3
-    //        locationList.add("Hips"); 3
+    // This method is for manually entering the data in advance
     private void preAddedPainData(){
         Pain pain1 = new Pain("1", "Back", "Good", "5000", "7000", "18", "23", "1015", "fit5046@gmail.com", "26/04/2021");
         Pain pain2 = new Pain("2", "Neck", "Low", "10000", "4200", "16", "55", "1022", "fit5046@gmail.com", "27/04/2021");

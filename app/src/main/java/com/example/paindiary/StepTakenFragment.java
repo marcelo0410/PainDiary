@@ -113,6 +113,7 @@ public class StepTakenFragment extends Fragment {
         }
         set.setColors(colors);
         PieData data = new PieData(set);
+        data.setValueTextSize(12f);
         binding.pieChartStep.setData(data);
         binding.pieChartStep.invalidate(); // refresh
     }

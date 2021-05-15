@@ -25,16 +25,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private String userEmail;
 
-    //for test
-    private Button btn_home;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userEmail = "";
-
-
         btn_login_register = (Button) findViewById(R.id.login_register);
         btn_login_register.setOnClickListener(this);
 
@@ -45,13 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etPassword = (EditText) findViewById(R.id.login_password);
 
         mAuth = FirebaseAuth.getInstance();
-
-        // for test
-        btn_home = (Button) findViewById(R.id.direct_home);
-        btn_home.setOnClickListener(this);
-
-
-
     }
 
     @Override
@@ -62,10 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_login:
                 userLogin();
-                break;
-                // for test
-            case R.id.direct_home:
-                startActivity(new Intent(this, HomeActivity.class));
                 break;
         }
     }
@@ -101,11 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    // redirect to the Home Screen
-                    // Toast.makeText(MainActivity.this, userEmail, Toast.LENGTH_LONG).show();
-                    // share login email
-
-
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     intent.putExtra("userEmail", userEmail);
                     startActivity(intent);

@@ -112,15 +112,15 @@ public class UserRegisteration extends AppCompatActivity implements View.OnClick
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(UserRegisteration.this, "Registeration is successful!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UserRegisteration.this, "Registration is successful!", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(UserRegisteration.this, MainActivity.class));
                                     }else{
-                                        Toast.makeText(UserRegisteration.this, "Registeration is failed!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UserRegisteration.this, "Registration is failed!", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                         }else{
-                            Toast.makeText(UserRegisteration.this, "Registeration is failed!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(UserRegisteration.this, "Registration is failed!", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

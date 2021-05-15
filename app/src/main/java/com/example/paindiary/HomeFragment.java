@@ -24,12 +24,8 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private final String[] weatherDataList;
-    private String pressure;
-
 
     public HomeFragment(){
-        weatherDataList = new String[3];
     }
 
     @Override
@@ -39,59 +35,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         getWeather("Tokyo");
-
-
-        // TODO delete
-        // LiveData
-        // model = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        // model.setResTemperature(temp);
-        binding.homeTemp.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = binding.homeTemp.getText().toString().substring(13);
-                //weatherDataList[0] = temp;
-            }
-        });
-
-        binding.homeHumidity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String humidity = binding.homeHumidity.getText().toString().substring(10);
-                //weatherDataList[1] = humidity;
-            }
-        });
-
-        binding.homePressure.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                pressure = binding.homePressure.getText().toString().substring(10);
-
-            }
-        });
-
-
         return view;
     }
 
@@ -104,13 +47,10 @@ public class HomeFragment extends Fragment {
     private void getWeather(String name){
         final String[] weatherArray = new String[3];
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-
-
         Call<WeatherResponse> call = apiInterface.getWeatherData(name);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                // TODO extract three weather data
                 binding.homePressure.setText("Pressure: "+response.body().getMain().getPressure());
                 binding.homeTemp.setText("Temperature: "+response.body().getMain().getTemp());
                 binding.homeHumidity.setText("Humidity: "+response.body().getMain().getHumidity());
